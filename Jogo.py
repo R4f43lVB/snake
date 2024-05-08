@@ -47,7 +47,7 @@ class fruta(pygame.sprite.Sprite):
         self.pos_y=random.randrange(1,(janela_alt//10)*10)
         self.pos=[self.pos_x,self.pos_y]
 
-### Função do loop principal do jogo
+#%% Função do loop principal do jogo
 
 def jogar(tela):
     clock=pygame.time.Clock()
@@ -122,5 +122,6 @@ def jogar(tela):
             player.rect.x-=player.speed
         elif player.direcao=='DIR':
             player.rect.x+=player.speed
+        
             
 jogar(janela)
