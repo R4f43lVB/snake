@@ -49,6 +49,30 @@ class fruta(pygame.sprite.Sprite):
 
 #%% Função do loop principal do jogo
 
+def pontuacao(cor,fonte,tam,pontos):
+
+    pont_font=pygame.font.SysFont(fonte,tam)
+
+    surface=pont_font.render('Pontos: '+str(pontos),True,cor)
+
+    pontos_rect=surface.get_rect()
+
+    janela.blit(surface,pontos_rect)
+
+def fim_de_jogo(pontos,recorde):
+    fonte=pygame.font.SysFont('times new roman',50)
+    surf=fonte.render('Você marcou: ', str(pontos), True,color=(255,0,0))
+    time.sleep(1)
+    if pontos>recorde:
+        rec=fonte.render('NOVO RECORDE!!')
+    
+    fdj_rect=surf.get_rect()
+
+    fdj_rect.pos=(janela_comp/2,janela_alt/2)
+
+    janela.blit(surf,fdj_rect)
+    pygame.display.flip()
+
 def jogar(tela):
     clock=pygame.time.Clock()
     assets=baixar_assets()
@@ -81,6 +105,7 @@ def jogar(tela):
 
     teclas={}
     pontos=0
+    tem_fruta=True
 
     #%% Definindo o jogo
     while estado!=FINAL:
@@ -122,6 +147,9 @@ def jogar(tela):
             player.rect.x-=player.speed
         elif player.direcao=='DIR':
             player.rect.x+=player.speed
+    
+    # Fazendo a cobra crescer a cada vez que encosta em uma fruta:
+    
         
             
 jogar(janela)
