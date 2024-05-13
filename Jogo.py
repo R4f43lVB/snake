@@ -6,7 +6,7 @@ import random
 pygame.init()
 #%% Configuração da janela
 # Configurações da janela do jogo
-janela_comp=1080
+janela_comp=1000
 janela_alt=600
 
 # Configurações das paredes (o player morre quando encosta nas paredes)
@@ -24,28 +24,23 @@ def baixar_assets():
     assets['comida']=pygame.image.load('assets/Fruta.png').convert()
     return assets
 
-#%% Criação do jogador
-class snake(pygame.sprite.Sprite):
-    def __init__(self,assets,grupos,posicao):
+assets=baixar_assets()
 
-        pygame.sprite.Sprite.__init__(self)
-        self.sprite=assets['corpo']
-        self.rect=self.sprite.get_rect()
-        self.rect.x=200
-        self.rect.y=300
-        self.speed=10
-        self.direcao=''
-        self.ir_para=self.direcao
+#%% Cobra
+sentido='DIR'
+prox_dir=sentido
 
-#%% Criação das frutas
-class fruta(pygame.sprite.Sprite):
-    def __init__(self,assets):
-        pygame.sprite.Sprite.__init__(self)
+cobra_pos=[100,50]
+cobra_corpo=[(100,50,assets['cabeca'],sentido),
+             (90,50,assets['corpo'],sentido),
+             (80,50,assets['corpo'],sentido),
+             (70,50,assets['corpo'],sentido)]
 
-        self.sprite=assets['comida']
-        self.pos_x=random.randrange(1,(janela_comp//10)*10)
-        self.pos_y=random.randrange(1,(janela_alt//10)*10)
-        self.pos=[self.pos_x,self.pos_y]
+#%% Frutas
+
+fruta_pos=(random.randrange(1,(janela_comp//10))*10,
+           random.randrange(1,(janela_alt//10))*10)
+fruta_spawn=True
 
 #%% Função do loop principal do jogo
 
@@ -78,12 +73,7 @@ def jogar(tela):
     assets=baixar_assets()
 
     # Posição do jogador
-    p0_cab=[200,300] # POsição da cabeça
-    p0_corpo=[[200,300],
-          [190,300],
-          [180,300],
-          [170,300]]
-    pos=[p0_cab,p0_corpo]
+
     #%% Criação dos grupos
     cobra=pygame.sprite.Group()
     tudo=pygame.sprite.Group()
@@ -95,8 +85,7 @@ def jogar(tela):
     grupos['paredes']=paredes
 
     #%% Criando o player
-    player=snake(assets,grupos,pos)
-    tudo.add(player)
+
 
     FINAL=0
     JOGANDO=1
@@ -114,41 +103,36 @@ def jogar(tela):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 estado=FINAL
+            janela.fill('black')
+            pygame.display.flip()
 
             if estado==JOGANDO:
                 # Se o jogador aperta alguma tecla:
                 if event.type==pygame.KEYDOWN:
                     teclas[event.key]=True
                     if event.key==pygame.K_LEFT:
-                        player.direcao='ESQ'
+                        prox_dir='ESQ'
                     elif event.key==pygame.K_RIGHT:
-                        player.direcao='DIR'
+                        prox_dir='DIR'
                     elif event.key==pygame.K_UP:
-                        player.direcao='CIMA'
+                        prox_dir='CIMA'
                     elif event.key==pygame.K_DOWN:
-                        player.direcao='BAIXO'
-        
-        # FAZ COM QUE A COBRA NÃO SE MEXA NA DIAGONAL
-        if player.ir_para=='CIMA' and player.direcao!='BAIXO':
-            player.direcao='CIMA'
-        elif player.ir_para=='BAIXO' and player.direcao!='CIMA':
-            player.direcao='BAIXO'
-        elif player.ir_para=='ESQ' and player.direcao!='DIR':
-            player.direcao='ESQ'
-        elif player.ir_para=='DIR' and player.direcao!='ESQ':
-            player.diecao=='DIR'
+                        prox_dir='BAIXO'
         
         # Movimentando a cobra
-        if player.direcao=='CIMA':
-            player.rect.y-=player.speed
-        elif player.direcao=='BAIXO':
-            player.rect.y+=player.speed
-        elif player.direcao=='ESQ':
-            player.rect.x-=player.speed
-        elif player.direcao=='DIR':
-            player.rect.x+=player.speed
+        if sentido=='CIMA':
+            cobra_pos[1]-=10
+        elif prox_dir=='BAIXO':
+            cobra_pos[1]+=10
+        elif prox_dir=='ESQ':
+            cobra_pos[0]-=10
+        elif prox_dir=='DIR':
+            cobra_pos[0]+=10
+        
+        
     
     # Fazendo a cobra crescer a cada vez que encosta em uma fruta:
+        
     
         
             
