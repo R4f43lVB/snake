@@ -22,6 +22,8 @@ def baixar_assets():
     assets['corpo']=pygame.image.load('assets/EL cuerpo.png').convert()
     assets['cabeca']=pygame.image.load('assets/cabeça da minha cobra.png').convert()
     assets['comida']=pygame.image.load('assets/Fruta.png').convert()
+    assets['mundo']=pygame.image.load('assets/background.png').convert_alpha()
+    
     return assets
 
 assets=baixar_assets()
@@ -118,22 +120,44 @@ def jogar(tela):
                         prox_dir='CIMA'
                     elif event.key==pygame.K_DOWN:
                         prox_dir='BAIXO'
+                
+
         
         # Movimentando a cobra
         if sentido=='CIMA':
             cobra_pos[1]-=10
-        elif prox_dir=='BAIXO':
+        elif sentido=='BAIXO':
             cobra_pos[1]+=10
-        elif prox_dir=='ESQ':
+        elif sentido=='ESQ':
             cobra_pos[0]-=10
-        elif prox_dir=='DIR':
+        elif sentido=='DIR':
             cobra_pos[0]+=10
-        
-        
-    
+
     # Fazendo a cobra crescer a cada vez que encosta em uma fruta:
+
+        cobra_corpo.insert(0,list(cobra_pos))
+        if cobra_pos[0]==fruta_pos[0] and cobra_pos[1]==fruta_pos[1]:
+            pontos+=100
+            fruta_spawn=False
+        else:
+            cobra_corpo.pop()
         
-    
+        if not fruta_spawn:
+            fruta_pos=(random.randrange(1,(janela_comp//10))*10,
+                       random.randrange(1,(janela_alt//10))*10)
+        fruta_pos=True
+        janela.fil(0,0,0)
+
+        for pos in cobra_corpo:
+            pygame.draw.rect(janela,(0,255,0),pygame.Rect(pos[0],pos[1],10,10))
         
-            
+        pygame.draw.rect(janela,(255,255,255),pygame.Rect(fruta_pos[0],fruta_pos[1],10,10))
+
+        # Game over
+
+        if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10:
+            fim_de_jogo()
+        elif cobra_pos[1]<0 or cobra_pos[1]>janela_alt-10:
+            fim_de_jogo()
+
 jogar(janela)
