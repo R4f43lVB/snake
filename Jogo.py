@@ -41,15 +41,15 @@ cobra_corpo=[(300,150),
 
 
 #%% Frutas
-'''
+
 fruta_pos=[random.randrange(1,(janela_comp//10))*10,
            random.randrange(1,(janela_alt//10))*10]
 fruta_spawn=True
-print(fruta_pos)
-'''
-#%% Função do loop principal do jogo
 
+#%% Função do loop principal do jogo
 def pontuacao(cor,fonte,tam,pontos):
+
+    pygame.font.init()
 
     pont_font=pygame.font.SysFont(fonte,tam)
 
@@ -82,9 +82,12 @@ while True:
     clock.tick(fps)
     pygame.display.flip()
 
+    pontuacao((255,255,255),'comic sans',20,pontos)
+
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             pygame.quit()
+            break
 
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_LEFT:
@@ -95,9 +98,10 @@ while True:
                 prox_dir='CIMA'
             elif event.key==pygame.K_DOWN:
                 prox_dir='BAIXO'
-            
+        
+    # Atualizando a direção
+    sentido=prox_dir
 
-    
     # Movimentando a cobra
     if sentido=='CIMA':
         cobra_pos[1]-=10
@@ -126,15 +130,19 @@ while True:
     
     pygame.draw.rect(janela,(255,255,255),pygame.Rect(fruta_pos[0],fruta_pos[1],10,10))
 
+    pygame.display.update()
+
+    # Morre quando a cobra encosta em si mesma
+    for corpo in cobra_corpo[1:]:
+        if cobra_pos == list(corpo):
+            pygame.quit()
+            break
+
     # Game over
 
     if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10:
         pygame.quit()
+        break
     elif cobra_pos[1]<0 or cobra_pos[1]>janela_alt-10:
         pygame.quit()
-    
-    pontuacao((255,255,255),'comic sans',20,pontos)
-    pygame.display.update()
-
-# Morre quando a cobra encosta em si mesma
-
+        break
