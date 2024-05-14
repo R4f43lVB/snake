@@ -79,8 +79,7 @@ tem_fruta=True
 
 #%% Definindo o jogo
 while True:
-    clock.tick(fps)
-    pygame.display.flip()
+    janela.fill((0,0,0))
 
     pontuacao((255,255,255),'comic sans',20,pontos)
 
@@ -111,6 +110,8 @@ while True:
         cobra_pos[0]-=10
     elif sentido=='DIR':
         cobra_pos[0]+=10
+    
+    #
 
 # Fazendo a cobra crescer a cada vez que encosta em uma fruta:
     cobra_corpo.insert(0,list(cobra_pos))
@@ -119,6 +120,7 @@ while True:
         fruta_spawn=False
     else:
         cobra_corpo.pop()
+
     
     if not fruta_spawn:
         fruta_pos=[random.randrange(1,(janela_comp//10))*10,
@@ -131,6 +133,8 @@ while True:
     pygame.draw.rect(janela,(255,255,255),pygame.Rect(fruta_pos[0],fruta_pos[1],10,10))
 
     pygame.display.update()
+
+    clock.tick(fps)
 
     # Morre quando a cobra encosta em si mesma
     for corpo in cobra_corpo[1:]:
