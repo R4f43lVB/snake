@@ -19,12 +19,22 @@ fps=15
 def baixar_assets():
     assets={}
 
-    assets['corpo']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
-    assets['corpo']=pygame.transform.scale(assets['corpo'],10,10)
-    assets['cabeca']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
-    assets['rabo']=pygame.image.load('assets/Rabetão.png').convert_alpha()
+    assets['corpo_v']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
+    assets['corpo_v']=pygame.transform.scale(assets['corpo_v'],(15,15))
+    assets['corpo_h']=pygame.transform.rotate(assets['corpo_v'],90)
+    assets['cabeca_cima']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
+    assets['cabeca_cima']=pygame.transform.scale(assets['cabeca_cima'],(15,15))
+    assets['cabeca_baixo']=pygame.transform.rotate(assets['cabeca_cima'],180)
+    assets['cabeca_esq']=pygame.transform.rotate(assets['cabeca_cima'],90)
+    assets['cabeca_dir']=pygame.transform.rotate(assets['cabeca_cima'],270)
+    assets['rabo_cima']=pygame.image.load('assets/Rabetão.png').convert_alpha()
+    assets['rabo_cima']=pygame.transform.scale(assets['rabo_cima'],(15,15))
+    assets['rabo_baixo']=pygame.transform.rotate(assets['rabo_cima'],180)
+    assets['rabo_esq']=pygame.transform.rotate(assets['rabo_cima'],90)
+    assets['rabo_dir']=pygame.transform.rotate(assets['rabo_cima'],270)
     assets['virar']=pygame.image.load('assets/Corpo_virando.png').convert_alpha()
     assets['comida']=pygame.image.load('assets/Fruta.png').convert_alpha()
+    assets['comida']=pygame.transform.scale(assets['comida'],(15,15))
     assets['mundo']=pygame.image.load('assets/Background_final.png').convert()
     assets['mundo']=pygame.transform.scale(assets['mundo'],(janela_comp,janela_alt))
     
@@ -93,16 +103,17 @@ while True:
             break
 
         if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_LEFT:
+            if event.key==pygame.K_LEFT or event.key==pygame.K_a:
                 if sentido!='DIR':
                     prox_dir='ESQ'
-            elif event.key==pygame.K_RIGHT:
+
+            elif event.key==pygame.K_RIGHT or event.key==pygame.K_d:
                 if sentido!='ESQ':
                     prox_dir='DIR'
-            elif event.key==pygame.K_UP:
+            elif event.key==pygame.K_UP or event.key==pygame.K_w:
                 if sentido!='BAIXO':
                     prox_dir='CIMA'
-            elif event.key==pygame.K_DOWN:
+            elif event.key==pygame.K_DOWN or event.key==pygame.K_s:
                 if sentido!='CIMA':
                     prox_dir='BAIXO'
 
@@ -138,9 +149,34 @@ while True:
 
     # Desenhando a cobra:
 
-    for pos in cobra_corpo:
-        janela.blit(assets['corpo'],(pos[0],pos[1]))
-    
+    for i,pos in enumerate(cobra_corpo):
+        if list(pos)==cobra_pos:
+            # Cabeça da cobra
+            if sentido=='CIMA':
+                janela.blit(assets['cabeca_cima'],(pos[0],pos[1]))
+            elif sentido=='BAIXO':
+                janela.blit(assets['cabeca_baixo'],(pos[0],pos[1]))
+            elif sentido=='ESQ':
+                janela.blit(assets['cabeca_esq'],(pos[0],pos[1]))
+            elif sentido=='DIR':
+                janela.blit(assets['cabeca_dir'],(pos[0],pos[1]))
+        elif i==len(cobra_corpo)-1:
+            # Rabo
+            if sentido=='CIMA':
+                janela.blit(assets['rabo_cima'],(pos[0],pos[1]))
+            elif sentido=='BAIXO':
+                janela.blit(assets['rabo_baixo'],(pos[0],pos[1]))
+            elif sentido=='ESQ':
+                janela.blit(assets['rabo_esq'],(pos[0],pos[1]))
+            else:
+                janela.blit(assets['rabo_dir'],(pos[0],pos[1]))
+        
+        else:
+            # Corpo
+            if sentido in ['BAIXO','CIMA']:
+                janela.blit(assets['corpo_v'],(pos[0],pos[1]))
+            else:
+                janela.blit(assets['corpo_h'],(pos[0],pos[1]))
     # desenha a fruta
     janela.blit(assets['comida'],(fruta_pos[0],fruta_pos[1]))
 
