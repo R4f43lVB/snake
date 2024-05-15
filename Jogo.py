@@ -22,11 +22,6 @@ def baixar_assets():
     assets['corpo_v']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
     assets['corpo_v']=pygame.transform.scale(assets['corpo_v'],(15,15))
     assets['corpo_h']=pygame.transform.rotate(assets['corpo_v'],90)
-    assets['virar']=pygame.image.load('assets/Corpo_virando.png').convert_alpha()
-    assets['dc_be']=assets['virar']
-    assets['db_ce']=pygame.transform.rotate(assets['virar'],90)
-    assets['cd_eb']=pygame.transform.rotate(assets['virar'],180)
-    assets['ec_bd']=pygame.transform.rotate(assets['virar'],270)
     assets['cabeca_cima']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
     assets['cabeca_cima']=pygame.transform.scale(assets['cabeca_cima'],(15,15))
     assets['cabeca_baixo']=pygame.transform.rotate(assets['cabeca_cima'],180)
@@ -155,6 +150,8 @@ while True:
     # Desenhando a cobra:
 
     for i,pos in enumerate(cobra_corpo):
+        # Caso a cobra mude de direção, muda o sprite
+        
         if list(pos)==cobra_pos:
             # Cabeça da cobra
             if sentido=='CIMA':
