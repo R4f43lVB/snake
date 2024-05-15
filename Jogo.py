@@ -22,6 +22,11 @@ def baixar_assets():
     assets['corpo_v']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
     assets['corpo_v']=pygame.transform.scale(assets['corpo_v'],(15,15))
     assets['corpo_h']=pygame.transform.rotate(assets['corpo_v'],90)
+    assets['virar']=pygame.image.load('assets/Corpo_virando.png').convert_alpha()
+    assets['dc_be']=assets['virar']
+    assets['db_ce']=pygame.transform.rotate(assets['virar'],90)
+    assets['cd_eb']=pygame.transform.rotate(assets['virar'],180)
+    assets['ec_bd']=pygame.transform.rotate(assets['virar'],270)
     assets['cabeca_cima']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
     assets['cabeca_cima']=pygame.transform.scale(assets['cabeca_cima'],(15,15))
     assets['cabeca_baixo']=pygame.transform.rotate(assets['cabeca_cima'],180)
@@ -37,7 +42,7 @@ def baixar_assets():
     assets['comida']=pygame.transform.scale(assets['comida'],(15,15))
     assets['mundo']=pygame.image.load('assets/Background_final.png').convert()
     assets['mundo']=pygame.transform.scale(assets['mundo'],(janela_comp,janela_alt))
-    
+
     return assets
 
 assets=baixar_assets()
@@ -95,7 +100,7 @@ tem_fruta=True
 while True:
     janela.fill((0,0,0))
     janela.blit(assets['mundo'],(0,0))
-    pontuacao((255,255,255),'comic sans',20,pontos)
+    pontuacao((0,0,0),'open sans',20,pontos)
 
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
