@@ -19,10 +19,14 @@ fps=15
 def baixar_assets():
     assets={}
 
-    assets['corpo']=pygame.image.load('assets/EL cuerpo.png').convert()
-    assets['cabeca']=pygame.image.load('assets/cabeça da minha cobra.png').convert()
-    assets['comida']=pygame.image.load('assets/Fruta.png').convert()
-    assets['mundo']=pygame.image.load('assets/background.png').convert_alpha()
+    assets['corpo']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
+    assets['corpo']=pygame.transform.scale(assets['corpo'],10,10)
+    assets['cabeca']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
+    assets['rabo']=pygame.image.load('assets/Rabetão.png').convert_alpha()
+    assets['virar']=pygame.image.load('assets/Corpo_virando.png').convert_alpha()
+    assets['comida']=pygame.image.load('assets/Fruta.png').convert_alpha()
+    assets['mundo']=pygame.image.load('assets/Background_final.png').convert()
+    assets['mundo']=pygame.transform.scale(assets['mundo'],(janela_comp,janela_alt))
     
     return assets
 
@@ -80,7 +84,7 @@ tem_fruta=True
 #%% Definindo o jogo
 while True:
     janela.fill((0,0,0))
-
+    janela.blit(assets['mundo'],(0,0))
     pontuacao((255,255,255),'comic sans',20,pontos)
 
     for event in pygame.event.get():
@@ -90,13 +94,19 @@ while True:
 
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_LEFT:
-                prox_dir='ESQ'
+                if sentido!='DIR':
+                    prox_dir='ESQ'
             elif event.key==pygame.K_RIGHT:
-                prox_dir='DIR'
+                if sentido!='ESQ':
+                    prox_dir='DIR'
             elif event.key==pygame.K_UP:
-                prox_dir='CIMA'
+                if sentido!='BAIXO':
+                    prox_dir='CIMA'
             elif event.key==pygame.K_DOWN:
-                prox_dir='BAIXO'
+                if sentido!='CIMA':
+                    prox_dir='BAIXO'
+
+            
         
     # Atualizando a direção
     sentido=prox_dir
@@ -111,7 +121,6 @@ while True:
     elif sentido=='DIR':
         cobra_pos[0]+=10
     
-    #
 
 # Fazendo a cobra crescer a cada vez que encosta em uma fruta:
     cobra_corpo.insert(0,list(cobra_pos))
@@ -127,10 +136,13 @@ while True:
                     random.randrange(1,(janela_alt//10))*10]
         fruta_spawn=True
 
+    # Desenhando a cobra:
+
     for pos in cobra_corpo:
-        pygame.draw.rect(janela,(0,255,0),pygame.Rect(pos[0],pos[1],10,10))
+        janela.blit(assets['corpo'],(pos[0],pos[1]))
     
-    pygame.draw.rect(janela,(255,255,255),pygame.Rect(fruta_pos[0],fruta_pos[1],10,10))
+    # desenha a fruta
+    janela.blit(assets['comida'],(fruta_pos[0],fruta_pos[1]))
 
     pygame.display.update()
 
