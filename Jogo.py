@@ -14,7 +14,6 @@ janela_alt=400
 janela=pygame.display.set_mode((janela_comp,janela_alt))
 pygame.display.set_caption('Jogo da cobrinha')
 fps=15
-
 #%% Baixando assets
 def baixar_assets():
     assets={}
@@ -60,7 +59,7 @@ fruta_pos=[random.randrange(1,(janela_comp//10))*10,
            random.randrange(1,(janela_alt//10))*10]
 fruta_spawn=True
 
-#%% Função do loop principal do jogo
+#%% Pontuação
 def pontuacao(cor,fonte,tam,pontos):
 
     pygame.font.init()
@@ -93,6 +92,7 @@ tem_fruta=True
 
 #%% Definindo o jogo
 while True:
+
     janela.fill((0,0,0))
     janela.blit(assets['mundo'],(0,0))
     pontuacao((0,0,0),'open sans',20,pontos)
