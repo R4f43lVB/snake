@@ -40,6 +40,12 @@ def baixar_assets():
     return assets
 
 assets=baixar_assets()
+#Sons e Musica do jogo 
+pygame.mixer.music.load('assets/chiil-drum-loop-6887.mp3')
+pygame.mixer.music.play(-1)  # Loop infinito para rodar o jogo inteiro
+som_comer = pygame.mixer.Sound('assets/comer_fruta.wav')# Som quando a cobra comer a fruta 
+som_colisao = pygame.mixer.Sound('assets/game-over.wav')# Som quando a cobra encostar nela mesma ou nas paredes
+
 
 #%% Cobra
 sentido='DIR'
@@ -138,6 +144,7 @@ while True:
     if cobra_pos[0]==fruta_pos[0] and cobra_pos[1]==fruta_pos[1]:
         pontos+=100
         fruta_spawn=False
+        som_comer.play()
     else:
         cobra_corpo.pop()
 
@@ -189,14 +196,17 @@ while True:
     # Morre quando a cobra encosta em si mesma
     for corpo in cobra_corpo[1:]:
         if cobra_pos == list(corpo):
+            som_colisao.play()
             pygame.quit()
             break
 
     # Game over
 
     if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10:
+        som_colisao.play()
         pygame.quit()
         break
     elif cobra_pos[1]<0 or cobra_pos[1]>janela_alt-10:
+        som_colisao.play()
         pygame.quit()
         break
