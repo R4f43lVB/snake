@@ -2,6 +2,7 @@
 import pygame
 import time
 import random
+from pygame.time import wait
 
 pygame.init()
 #%% Configuração da janela
@@ -44,8 +45,7 @@ assets=baixar_assets()
 pygame.mixer.music.load('assets/musica_jogo6.mp3')
 pygame.mixer.music.play(-1)  # Loop infinito para rodar o jogo inteiro
 som_comer = pygame.mixer.Sound('assets/comer_fruta.mp3')# Som quando a cobra comer a fruta 
-som_colisao = pygame.mixer.Sound('assets/game-over18.mp3')# Som quando a cobra encostar nela mesma ou nas paredes
-
+som_colisao = pygame.mixer.Sound('assets/game-over-31.mp3')# Som quando a cobra encostar nela mesma ou nas paredes
 
 #%% Cobra
 sentido='DIR'
@@ -103,6 +103,7 @@ def titulo():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 som_colisao.play()
+                wait(2000)
                 pygame.quit()
                 som_colisao.play()
                 quit()
@@ -148,6 +149,7 @@ while True:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             som_colisao.play()
+            wait(2000)
 
             pygame.quit()
             som_colisao.play()
@@ -242,6 +244,7 @@ while True:
     for corpo in cobra_corpo[1:]:
         if cobra_pos == list(corpo):
             som_colisao.play()
+            wait(2000)
             pygame.quit()
             som_colisao.play()
             break
@@ -250,10 +253,11 @@ while True:
 
     if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10:
         som_colisao.play()
+        wait(2000)
         pygame.quit()
-        som_colisao.play()
         break
     elif cobra_pos[1]<0 or cobra_pos[1]>janela_alt-10:
         som_colisao.play()
+        wait(2000)
         pygame.quit()
         break
