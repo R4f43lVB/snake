@@ -99,6 +99,9 @@ while True:
     def titulo():
         tela=True
 
+        #define fps padrão
+        fps=15
+
         while tela:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
