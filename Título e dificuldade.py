@@ -1,3 +1,8 @@
+'''
+Esse código foi um rascunho feito para a função que define a dificuldade
+e cria a tela de título
+'''
+
 import pygame
 import time
 import random

@@ -1,44 +1,22 @@
 #%% importando bibliotecas e iniciando o pygame
 import pygame
 import time
+from baixar_assets import baixar_assets
+from configurações import janela_alt,janela_comp,janela
+from pont import pontuacao
+from titulo import titulo
 import random
 from pygame.time import wait
 
 pygame.init()
 #%% Configuração da janela
 # Configurações da janela do jogo
-janela_comp=600
-janela_alt=400
 
 # Configurações das paredes (o player morre quando encosta nas paredes)
 while True:
-    janela=pygame.display.set_mode((janela_comp,janela_alt))
+    #janela=pygame.display.set_mode((janela_comp,janela_alt))
     pygame.display.set_caption('Jogo da cobrinha')
     fps=15
-    #%% Baixando assets
-    def baixar_assets():
-        assets={}
-
-        assets['corpo_v']=pygame.image.load('assets/EL cuerpo.png').convert_alpha()
-        assets['corpo_v']=pygame.transform.scale(assets['corpo_v'],(15,15))
-        assets['corpo_h']=pygame.transform.rotate(assets['corpo_v'],90)
-        assets['cabeca_cima']=pygame.image.load('assets/cabeça da minha cobra.png').convert_alpha()
-        assets['cabeca_cima']=pygame.transform.scale(assets['cabeca_cima'],(15,15))
-        assets['cabeca_baixo']=pygame.transform.rotate(assets['cabeca_cima'],180)
-        assets['cabeca_esq']=pygame.transform.rotate(assets['cabeca_cima'],90)
-        assets['cabeca_dir']=pygame.transform.rotate(assets['cabeca_cima'],270)
-        assets['rabo_cima']=pygame.image.load('assets/Rabetão.png').convert_alpha()
-        assets['rabo_cima']=pygame.transform.scale(assets['rabo_cima'],(15,15))
-        assets['rabo_baixo']=pygame.transform.rotate(assets['rabo_cima'],180)
-        assets['rabo_esq']=pygame.transform.rotate(assets['rabo_cima'],90)
-        assets['rabo_dir']=pygame.transform.rotate(assets['rabo_cima'],270)
-        assets['virar']=pygame.image.load('assets/Corpo_virando.png').convert_alpha()
-        assets['comida']=pygame.image.load('assets/Fruta.png').convert_alpha()
-        assets['comida']=pygame.transform.scale(assets['comida'],(15,15))
-        assets['mundo']=pygame.image.load('assets/Background_final.png').convert()
-        assets['mundo']=pygame.transform.scale(assets['mundo'],(janela_comp,janela_alt))
-
-        return assets
 
     assets=baixar_assets()
     #Sons e Musica do jogo 
@@ -66,6 +44,7 @@ while True:
     fruta_spawn=True
 
     #%% Pontuação
+    '''
     def pontuacao(cor,fonte,tam,pontos):
 
         pygame.font.init()
@@ -77,7 +56,7 @@ while True:
         pontos_rect=surface.get_rect()
 
         janela.blit(surface,pontos_rect)
-
+    '''
     clock=pygame.time.Clock()
     assets=baixar_assets()
 
@@ -96,52 +75,6 @@ while True:
     pontos=0
     tem_fruta=True
 
-    def titulo():
-        tela=True
-
-        #define fps padrão
-        fps=15
-
-        while tela:
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type==pygame.KEYDOWN:
-                    if event.key==pygame.K_RETURN:
-                        tela=False
-                    if event.key==pygame.K_1:
-                        fps=10
-                    elif event.key==pygame.K_2:
-                        fps=15
-                    elif event.key==pygame.K_3:
-                        fps=30
-                    elif event.key==pygame.K_9:
-                        fps=70
-
-            janela.fill((0,145,145))
-            fonte_tit=pygame.font.SysFont('comic sans', 50)
-            tex_tit=fonte_tit.render('Jogo da Cobrinha', True, (255,255,255))
-            sel_font=pygame.font.SysFont('comic sans', 35)
-            esc_font=pygame.font.SysFont('comic sans', 25)
-            sel_texto=sel_font.render('Escolha a dificuldade: ',True,(255,255,255))
-            facil_texto=esc_font.render('1 - Fácil',True,(255,255,255))
-            medio_texto=esc_font.render('2 - Médio',True,(255,255,255))
-            dif_texto=esc_font.render('3 - Difícil',True,(255,255,255))
-            imp_texto=esc_font.render('9 - Impossível (É SÉRIO!)',True,(255,255,255))
-            next_texto=sel_font.render('Agora aperte Enter',True,(255,255,255))
-            janela.blit(tex_tit,(100,50))
-            janela.blit(sel_texto,(70,130))
-            janela.blit(facil_texto,(70,180))
-            janela.blit(medio_texto,(70,210))
-            janela.blit(dif_texto,(70,240))
-            janela.blit(imp_texto,(70,270))
-            janela.blit(next_texto,(70,300))
-                    
-            pygame.display.flip()
-
-        return fps
-
 
     fps = titulo()
     #%% Definindo o jogo
@@ -155,11 +88,8 @@ while True:
 
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
-                som_colisao.play()
-                wait(2000)
 
                 pygame.quit()
-                som_colisao.play()
                 break
 
             if event.type==pygame.KEYDOWN:
