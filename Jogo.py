@@ -248,17 +248,17 @@ while True:
         clock.tick(fps)
 
         # Morre quando a cobra encosta em si mesma
+        Game_over=False
         for corpo in cobra_corpo[1:]:
             if cobra_pos == list(corpo):
-                som_colisao.play()
-                wait(2000)
-                pygame.quit()
-                som_colisao.play()
+                #som_colisao.play()
+                #wait(2000)
+                Game_over=True
                 break
-
+            
         # Game over
 
-        if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10:
+        if cobra_pos[0]<0 or cobra_pos[0]>janela_comp-10 or Game_over==True:
             som_colisao.play()
             wait(2000)
             #pygame.quit()
