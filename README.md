@@ -49,3 +49,7 @@ https://www.pixilart.com/
 
 Agradecimentos:
 Professor Carlos Eduardo Dantas de Menezes
+
+
+Video introdução do jogo:
+https://youtu.be/fkSBi-yOcR4
