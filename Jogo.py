@@ -251,8 +251,6 @@ while True:
         Game_over=False
         for corpo in cobra_corpo[1:]:
             if cobra_pos == list(corpo):
-                #som_colisao.play()
-                #wait(2000)
                 Game_over=True
                 break
             
